@@ -1,27 +1,124 @@
 @import "custom.scss";
 
 .basic-layout {
-  height: 100%;
-}
+  height: 100vh;
+  overflow-x: hidden;
 
-.viasm-header {
-  display: block;
-  //position: fixed;
-  z-index: 100;
-  width: 100%;
-  height: var(--header-height) !important;
+  display: flex;
+  flex-direction: column;
 
-  .sidebar-menu {
+  transition: linear .3s;
+
+  .viasm-header {
+    z-index: 100;
+    width: 100%;
+    height: var(--header-height) !important;
+    border-radius: 0;
+
+    .p-toolbar.p-component {
+      border: 0px;
+      padding: 0px;
+      border-bottom: 1px solid red;
+      border-radius: 0px;
+
+      height: var(--header-height) !important;
+
+      .p-toolbar-group-start {
+        height: var(--header-height) !important;
+      }
+
+      .header-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        .toggle-sidebar-swap {
+          width: 30px;
+          height: 100%;
+          background-color: red;
+          margin-right: 8px;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .toggle-sidebar-icon {
+            cursor: pointer;
+            font-size: 1rem;
+            color: white;
+          }
+        }
+
+        .viasm-logo {
+          height: calc(var(--header-height) - 14px);
+        }
+      }
+
+      .header-right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 15px;
+      }
+    }
+
   }
 
-}
+  .viasm-container {
+    display: flex;
+    flex: 1;
 
-.viasm-container {
-  height: 100%;
+    .viasm-content {
+      height: 100%;
+      display: block;
 
-  .viasm-content {
+      flex: 1;
+    }
+  }
+
+  #swap-sidebar {
     height: 100%;
-    display: block;
-    margin-top: var(--header-height);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.25);
+
+    .sidebar-menu {
+      height: 100%;
+
+      .p-menu {
+        display: block;
+        height: 100%;
+        width: var(--sidebar-width);
+
+        font-size: 0.9rem;
+        padding: 0;
+
+        .p-menuitem.p-focus {
+          background-color: rgb(232, 232, 232);
+        }
+
+        .menu-item--icon {
+          margin-right: 14px;
+        }
+
+        .menu-subsystem {
+          display: flex;
+          align-items: center;
+
+          padding: 16px;
+          margin-bottom: 16px;
+          box-shadow: 0 2px 5px 0 rgba(0,0,0,.15);
+        }
+
+        .menu-item {
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+
+          text-decoration: none;
+          color: var(--primary-color-viasm-text);
+        }
+      }
+    }
   }
+
 }

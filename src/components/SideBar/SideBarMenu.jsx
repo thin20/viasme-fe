@@ -1,26 +1,95 @@
 import React from 'react';
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { toggleSideBar } from '@/store/modules/app.js'
-import { Sidebar } from 'primereact/sidebar';
-import { Button } from 'primereact/button';
+import { Menu } from 'primereact/menu';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarPlus, faCalendarDays, faCalendarCheck, faMoneyBill, faBook, faSlash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function SideBarMenu() {
-    const visibleSideBar = useSelector((state) => state.app.visibleSideBar)
-    const dispatch = useDispatch()
-
-    const onCloSideBar = () => {
-        dispatch(toggleSideBar({ onClose: true }))
+    const navigate = useNavigate()
+    const goto = (e, routerLink) => {
+        console.log('e: ', e)
+        console.log('routerLink: ', routerLink)
+        // e.stopPropagation()
+        // e.preventDefault()
+        // navigate(routerLink)
     }
+
+    const items = [
+        {
+            template: () => {
+                return (
+                    <div className="menu-subsystem">
+                        <svg className="menu-item--icon" style={{fontSize: '0.9rem', height: '20px'}} xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 448 512">
+                            <path
+                                d="M94.1 315.1c0 25.9-21.2 47.1-47.1 47.1S0 341 0 315.1c0-25.9 21.2-47.1 47.1-47.1h47.1v47.1zm23.7 0c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1v117.8c0 25.9-21.2 47.1-47.1 47.1s-47.1-21.2-47.1-47.1V315.1zm47.1-189c-25.9 0-47.1-21.2-47.1-47.1S139 32 164.9 32s47.1 21.2 47.1 47.1v47.1H164.9zm0 23.7c25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1H47.1C21.2 244 0 222.8 0 196.9s21.2-47.1 47.1-47.1H164.9zm189 47.1c0-25.9 21.2-47.1 47.1-47.1 25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1h-47.1V196.9zm-23.7 0c0 25.9-21.2 47.1-47.1 47.1-25.9 0-47.1-21.2-47.1-47.1V79.1c0-25.9 21.2-47.1 47.1-47.1 25.9 0 47.1 21.2 47.1 47.1V196.9zM283.1 385.9c25.9 0 47.1 21.2 47.1 47.1 0 25.9-21.2 47.1-47.1 47.1-25.9 0-47.1-21.2-47.1-47.1v-47.1h47.1zm0-23.7c-25.9 0-47.1-21.2-47.1-47.1 0-25.9 21.2-47.1 47.1-47.1h117.8c25.9 0 47.1 21.2 47.1 47.1 0 25.9-21.2 47.1-47.1 47.1H283.1z"/>
+                        </svg>
+                        HỘI NGHỊ HỘI THẢO
+                    </div>
+                )
+            }
+        },
+        {
+            template: () => {
+                return (
+                    <Link to={'/home'} className="menu-item">
+                        <FontAwesomeIcon icon={faCalendarPlus} className="menu-item--icon" onClick={goto('/home')} />
+                        <div className="menu-item--title">Quản lý đề xuất sự kiện khoa học</div>
+                    </Link>
+                )
+            }
+        },
+        {
+            template: () => {
+                return (
+                    <Link to={'/home2'} className="menu-item">
+                        <FontAwesomeIcon icon={faCalendarDays} className="menu-item--icon" onClick={goto('/home2')} />
+                        <div className="menu-item--title">Quản lý tổ chức sự kiện khoa học</div>
+                    </Link>
+                )
+            }
+        },
+        {
+            template: () => {
+                return (
+                    <Link to={'/home2'} className="menu-item">
+                        <FontAwesomeIcon icon={faCalendarCheck} className="menu-item--icon" onClick={goto('/home2')} />
+                        <div className="menu-item--title">Điểm danh tham gia SKKH</div>
+                    </Link>
+                )
+            }
+        },
+        {
+            template: () => {
+                return (
+                    <Link to={'/home2'} className="menu-item">
+                        <FontAwesomeIcon icon={faMoneyBill} className="menu-item--icon" onClick={goto('/home2')}/>
+                        <div className="menu-item--title">Quản lý đóng phí</div>
+                    </Link>
+                )
+            }
+        },
+        {
+            template: () => {
+                return (
+                    <Link to={'/home'} className="menu-item p-menuitem-link">
+                        <FontAwesomeIcon icon={faBook} className="menu-item--icon" onClick={goto('/home2')}/>
+                        <div className="menu-item--title">Tổng kết báo cáo SKKH</div>
+                    </Link>
+                )
+            }
+        },
+        {
+            label: 'klajdshf',
+            icon: 'kasldfj',
+            url: '/home'
+        }
+    ];
+
     return (
         <div className="card flex justify-content-center sidebar-menu">
-            <Sidebar visible={visibleSideBar} onHide={() => onCloSideBar()} closeOnEscape={false} style={{display: "block"}}>
-                <h2>Sidebar</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-            </Sidebar>
+            <Menu model={items} className="menu"/>
         </div>
     );
 }

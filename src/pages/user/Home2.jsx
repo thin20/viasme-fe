@@ -4,7 +4,7 @@ function Home2() {
     return (
         <div className="Home">
             {/*<BasicLayout></BasicLayout>*/}
-            Home
+            Home2
         </div>
     );
 }
