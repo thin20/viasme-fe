@@ -31,59 +31,39 @@ function SideBarMenu() {
             }
         },
         {
-            template: () => {
-                return (
-                    <Link to={'/home'} className="menu-item">
-                        <FontAwesomeIcon icon={faCalendarPlus} className="menu-item--icon" onClick={goto('/home')} />
-                        <div className="menu-item--title">Quản lý đề xuất sự kiện khoa học</div>
-                    </Link>
-                )
+            label: 'Quản lý đề xuất sự kiện khoa học',
+            icon: <FontAwesomeIcon icon={faCalendarPlus} className="menu-item--icon" />,
+            command: () => {
+                navigate('/hoinghihoithao/sukien-dexuat')
             }
         },
         {
-            template: () => {
-                return (
-                    <Link to={'/home2'} className="menu-item">
-                        <FontAwesomeIcon icon={faCalendarDays} className="menu-item--icon" onClick={goto('/home2')} />
-                        <div className="menu-item--title">Quản lý tổ chức sự kiện khoa học</div>
-                    </Link>
-                )
+            label: 'Quản lý tổ chức sự kiện khoa học',
+            icon: <FontAwesomeIcon icon={faCalendarDays} className="menu-item--icon" />,
+            command: () => {
+                navigate('/hoinghihoithao/sukien-kehoach')
             }
         },
         {
-            template: () => {
-                return (
-                    <Link to={'/home2'} className="menu-item">
-                        <FontAwesomeIcon icon={faCalendarCheck} className="menu-item--icon" onClick={goto('/home2')} />
-                        <div className="menu-item--title">Điểm danh tham gia SKKH</div>
-                    </Link>
-                )
+            label: 'Điểm danh tham gia SKKH',
+            icon: <FontAwesomeIcon icon={faCalendarCheck} className="menu-item--icon" />,
+            command: () => {
+                navigate('/hoinghihoithao/diemdanh-sukien')
             }
         },
         {
-            template: () => {
-                return (
-                    <Link to={'/home2'} className="menu-item">
-                        <FontAwesomeIcon icon={faMoneyBill} className="menu-item--icon" onClick={goto('/home2')}/>
-                        <div className="menu-item--title">Quản lý đóng phí</div>
-                    </Link>
-                )
+            label: 'Quản lý đóng phí',
+            icon: <FontAwesomeIcon icon={faMoneyBill} className="menu-item--icon" />,
+            command: () => {
+                navigate('/hoinghihoithao/sukien-dongphi')
             }
         },
         {
-            template: () => {
-                return (
-                    <Link to={'/home'} className="menu-item p-menuitem-link">
-                        <FontAwesomeIcon icon={faBook} className="menu-item--icon" onClick={goto('/home2')}/>
-                        <div className="menu-item--title">Tổng kết báo cáo SKKH</div>
-                    </Link>
-                )
+            label: 'Tổng kết báo cáo SKKH',
+            icon: <FontAwesomeIcon icon={faBook} className="menu-item--icon" />,
+            command: () => {
+                navigate('/hoinghihoithao/sukien-baocao')
             }
-        },
-        {
-            label: 'klajdshf',
-            icon: 'kasldfj',
-            url: '/home'
         }
     ];
 

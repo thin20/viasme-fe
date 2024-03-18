@@ -56,10 +56,17 @@
       }
 
       .header-right {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 15px;
+        .header-right--avatar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0 15px;
+          cursor: pointer;
+        }
+
+        .header-right--avatar:hover {
+          opacity: 0.8;
+        }
       }
     }
 
@@ -94,6 +101,11 @@
 
         .p-menuitem.p-focus {
           background-color: rgb(232, 232, 232);
+        }
+
+        .p-menuitem.p-focus .p-menuitem-text,
+        .p-menuitem.p-focus .menu-item--icon {
+          color: var(--primary-color-viasm-active-color) !important;
         }
 
         .menu-item--icon {

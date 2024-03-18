@@ -6,6 +6,7 @@
   --header-height: 60px;
   --sidebar-width: 300px;
   --primary-color-viasm-text: #495057;
+  --primary-color-viasm-active-color: rgb(51, 122, 183);
 }
 
 body {

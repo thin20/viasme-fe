@@ -5,8 +5,11 @@ import "primereact/resources/primereact.min.css";
 import { Navigate, useRoutes } from "react-router-dom";
 import BasicLayout from '@layouts/BasicLayout.jsx'
 import BlankLayout from '@layouts/BlankLayout.jsx';
-import Home from "@/pages/user/Home.jsx";
-import Home2 from "@/pages/user/Home2.jsx";
+import SuKienDeXuat from "@/pages/user/sukien-dexuat/Index.jsx"
+import SuKienKeHoach from "@/pages/user/sukien-kehoach/Index.jsx"
+import DiemDanhSuKien from "@/pages/user/diemdanh-sukien/Index.jsx"
+import QuanLyDongPhi from "@/pages/user/sukien-dongphi/Index.jsx"
+import SuKienBaoCao from "@/pages/user/sukien-baocao/Index.jsx"
 import Login from '@/pages/auth/Login.jsx'
 import Register from '@/pages/auth/Register.jsx'
 import './assets/style/index.scss'
@@ -16,14 +19,14 @@ const App = () => {
         {
             path: "/",
             index: true,
-            element: <Navigate to="/home" />,
+            element: <Navigate to="/hoinghihoithao" />,
         },
         {
             path: "/auth",
             element: <BlankLayout />,
             children: [
                 {
-                    path: "/auth/login",
+                    path: "login",
                     element: <Login />,
                 },
                 {
@@ -33,19 +36,35 @@ const App = () => {
             ],
         },
         {
-            path: "/",
+            path: "/hoinghihoithao",
             element: <BasicLayout />,
             children: [
                 {
-                    path: "home",
-                    element: <Home />,
+                    path: "sukien-dexuat",
+                    element: <SuKienDeXuat />,
                 },
                 {
-                    path: "home2",
-                    element: <Home2 />,
+                    path: "sukien-kehoach",
+                    element: <SuKienKeHoach />,
+                },
+                {
+                    path: "diemdanh-sukien",
+                    element: <DiemDanhSuKien />,
+                },
+                {
+                    path: "sukien-dongphi",
+                    element: <QuanLyDongPhi />,
+                },
+                {
+                    path: "sukien-baocao",
+                    element: <SuKienBaoCao />,
                 },
             ],
         },
+        {
+            path: '/*',
+            element: <BasicLayout />
+        }
     ]);
 
     console.log('routes: ', routes)

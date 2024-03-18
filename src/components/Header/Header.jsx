@@ -12,14 +12,6 @@ import { Dropdown } from 'antd';
 function Header() {
     const dispatch = useDispatch()
     const visibleSideBar = useSelector((state) => state.app.visibleSideBar)
-    let visibleMenuAvatar = true
-    const menuAvatar = [
-        { key: 1, label: 'Đăng xuất' }
-    ]
-
-    const onChangeVisibleMenuAvatar = (value) => {
-        console.log('onChangeVisibleMenuAvatar: ', value)
-    }
 
     const onToggleSideBar = (value) => {
         value ? dispatch(toggleSideBar({ onClose: true })) : dispatch(toggleSideBar())
@@ -34,13 +26,6 @@ function Header() {
         }
     }
 
-    const onToggleMenuAvatar = (e) => {
-        const menuAvatar = document.getElementById("menu-avatar")
-        console.log('e.target: ', e.target)
-        visibleMenuAvatar = !visibleMenuAvatar
-        menuAvatar.style.display = visibleMenuAvatar ? 'block' : 'none'
-    }
-
     const startContent = (
         <div className="header-left">
             <div className="toggle-sidebar-swap">
@@ -52,14 +37,29 @@ function Header() {
     );
 
     const centerContent = (<div></div>);
-
+    const items = [
+        {
+            key: '1',
+            label: (
+                <div className="header-right--menu-item" onClick={() => handleLogout()}>
+                    Đăng xuất
+                </div>
+            ),
+        }
+    ];
+    const handleLogout = () => {
+        console.log('handleLogout')
+    }
     const endContent = (
-        <React.Fragment>
-            <div className="flex justifi-content-center align-items-center gap-2 header-right">
-                <span style={{fontSize: '14px'}}>Minh Phương</span>
-                <Avatar image={avatar} shape="circle" style={{height: '38px', width: '38px', marginLeft: '12px'}}/>
-            </div>
-        </React.Fragment>
+        <div className="header-right">
+            <Dropdown menu={{items}}>
+                <div className="flex justifi-content-center align-items-center gap-2 header-right--avatar">
+                    <span style={{fontSize: '14px'}}>Minh Phương</span>
+                    <Avatar image={avatar} shape="circle"
+                            style={{height: '38px', width: '38px', marginLeft: '12px'}}/>
+                </div>
+            </Dropdown>
+        </div>
     );
 
     return (
