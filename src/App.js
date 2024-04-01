@@ -19,10 +19,10 @@ const App = () => {
         {
             path: "/",
             index: true,
-            element: <Navigate to="/hoinghihoithao" />,
+            element: <Navigate to="hoinghihoithao" />,
         },
         {
-            path: "/auth",
+            path: "auth",
             element: <BlankLayout />,
             children: [
                 {
@@ -36,7 +36,7 @@ const App = () => {
             ],
         },
         {
-            path: "/hoinghihoithao",
+            path: "hoinghihoithao",
             element: <BasicLayout />,
             children: [
                 {
@@ -66,8 +66,6 @@ const App = () => {
             element: <BasicLayout />
         }
     ]);
-
-    console.log('routes: ', routes)
 
     return routes;
 };

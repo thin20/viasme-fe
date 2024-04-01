@@ -1,0 +1,48 @@
+.viasm-table {
+
+  .viasm-table--filter {
+    background-color: #f2f2f2;
+    padding: 7px 14px;
+  }
+
+  .viasm-table--container {
+
+    .viasm-table--header {
+      display: flex;
+      align-items: center;
+
+      padding: 7px 14px;
+
+      .viasm-table--title {
+        flex: 1
+      }
+
+      .viasm-table--pagination {
+        display: flex;
+        align-items: center;
+
+        .viasm-table--pagination-current {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .viasm-table--content {
+      padding: 0 14px;
+      .viasm-table--extend {
+        padding: 7px 7px 10px 4px;
+        .button-create {
+
+
+          .p-button-label {
+            margin-left: 6px;
+          }
+        }
+      }
+
+      .viasm-table--table {
+
+      }
+    }
+  }
+}

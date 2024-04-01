@@ -1,3 +1,4 @@
+@import "viasm-table.scss";
 @import "custom.scss";
 
 .basic-layout {
@@ -81,6 +82,7 @@
       display: block;
 
       flex: 1;
+      //padding: 7px 14px;
     }
   }
 
