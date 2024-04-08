@@ -41,7 +41,10 @@
       }
 
       .viasm-table--table {
-
+        .viasm-table--operator {
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }

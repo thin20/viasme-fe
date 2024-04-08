@@ -12,6 +12,7 @@ function BasicLayout() {
         if (swapSidebar) {
             swapSidebar.style.width = '0px';
             swapSidebar.style.width = visibleSideBar ? 'var(--sidebar-width)' : '0px'
+            swapSidebar.style.display = visibleSideBar ? 'block' : 'none'
         }
     }
 
@@ -23,7 +24,7 @@ function BasicLayout() {
         <div className="basic-layout">
             <Header />
             <div className="viasm-container">
-                <div id="swap-sidebar" style={{overflow: "hidden"}}>
+                <div id="swap-sidebar">
                     <SideBarMenu></SideBarMenu>
                 </div>
                 <div className="viasm-content">

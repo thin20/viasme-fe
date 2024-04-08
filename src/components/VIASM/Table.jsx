@@ -15,6 +15,8 @@ function ViasmTable(props, component) {
     const tableStyle = props && props["tableStyle"] ? props["tableStyle"] : {}
     const isCreate = props && props["isCreate"] ? props["isCreate"] : false
     const showGridlines = props && props["showGridlines"] ? props["showGridlines"] : true
+    const templateColumns = props && props["templateColumns"] ? props["templateColumns"] : []
+    console.log('templateColumns: ', templateColumns)
     const handleCreate = () => {
         props.onCreate()
     }
@@ -38,20 +40,30 @@ function ViasmTable(props, component) {
                     <div className="viasm-table--title">{title}</div>
                     {
                         showPagination ?
-                            <div><Pagination pagination={pagination} onChange={currentPageChange}></Pagination></div>
+                            <Pagination pagination={pagination} onChange={currentPageChange}></Pagination>
                             : null
                     }
 
                 </div>
                 <div className="viasm-table--content">
                     <div className="viasm-table--extend">
-                        <Button label="Primary" text label="Thêm mới" icon={<FontAwesomeIcon icon={faPlus} />} onClick={handleCreate} className="button-create" />
+                        { isCreate ? <Button label="Primary" text label="Thêm mới" icon={<FontAwesomeIcon icon={faPlus} />} onClick={handleCreate} className="button-create" /> : null }
                     </div>
                     <div className="viasm-table--table">
-                        <DataTable value={dataTable} stripedRows tableStyle={tableStyle} showGridlines={showGridlines}>
+                        <DataTable
+                            value={dataTable}
+                            stripedRows
+                            tableStyle={tableStyle}
+                            showGridlines={showGridlines}
+                        >
                             {
                                 columns.map((column, index) => {
-                                    return <Column field={column.field} header={column.title} key={index} style={column.style}></Column>
+                                    let templateColumn = templateColumns && templateColumns.find(templateColumn => templateColumn.key === column.field)
+                                    if (templateColumn) {
+                                        return <Column field={column.field} header={column.title} key={index} style={column.style} body={(rowData) => templateColumn.template(rowData, index)}></Column>
+                                    } else {
+                                        return <Column field={column.field} header={column.title} key={index} style={column.style}></Column>
+                                    }
                                 })
                             }
                         </DataTable>

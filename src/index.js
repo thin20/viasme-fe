@@ -7,6 +7,7 @@ import App from './App';
 import { store } from '@/store/store.js';
 import { Provider } from 'react-redux';
 import { PrimeReactProvider } from 'primereact/api';
+import 'primeicons/primeicons.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

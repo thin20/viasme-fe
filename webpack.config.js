@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
     output: {
         path: path.join(__dirname, "/dist"), // the bundle output path
-        filename: "bundle.js" // the name of the bundle
-        // publicPath: '/'
+        filename: "bundle.js", // the name of the bundle
+        publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -43,6 +43,8 @@ module.exports = {
             '@constants': path.resolve(__dirname, './src/constants'),
             '@layouts': path.resolve(__dirname, './src/layouts'),
             '@store': path.resolve(__dirname, './src/store'),
+            '@utils': path.resolve(__dirname, './src/utils'),
+            '@mixins': path.resolve(__dirname, './src/mixins'),
         }
     }
 };

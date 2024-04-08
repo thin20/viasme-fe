@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from "react";
 import ViasmTable from "@components/VIASM/Table.jsx";
-import { Select } from 'antd';
+import { Select, Tooltip } from 'antd';
 import columns from './columns/columns.js'
 import { Dialog } from 'primereact/dialog';
+import { getTableRowIndex } from '@/utils/util.js'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-function SuKienDeXuat() {
+function SuKienDeXuat(props) {
     const [dataTable, setDataTable] = useState([
         {
-            ten: 'Minh Phuong',
-            tuoi: 22,
-            sdt: '092341341234'
+            tt: '1',
+            ten: 'Trường hè Dự bị Thạc sĩ năm 2024',
+            loaihinhhoatdong: 'Trường chuyên biệt',
+            thoigiandukien: '03/09/2024 - 05/09/2024',
+            diadiemtochuc: 'Viện nghiên cứu cao cấp về toán',
+            tennguoidexuat: 'Hoàng Ánh Ngọc',
+            trangthai: 'Chờ gửi duyệt'
         },
         {
-            ten: 'thin',
-            tuoi: 24,
-            sdt: '098140912348'
+            tt: '2',
+            ten: 'Lý thuyết Xác suất trong không gian nhiều chiều và ứng dụng',
+            loaihinhhoatdong: 'Trường chuyên biệt',
+            thoigiandukien: '19/03/2024 - 22/03/2024',
+            diadiemtochuc: 'Viện Toán học, Viện Hàn lâm Khoa học Công nghệ Việt Nam, số 18B Hoàng Quốc Việt, Cầu Giấy, Hà Nội',
+            tennguoidexuat: 'Lê Thị Lan Anh - Văn phòng/Phòng chức năng',
+            trangthai: 'Đã gửi duyệt'
         }
     ])
+    // chờ gửi duyệt, đã gửi duyệt, đã duyệt
     const [pagination, setPagination] = useState({
         current: 1,
         total: dataTable.length,
@@ -29,9 +41,11 @@ function SuKienDeXuat() {
     for(let i = 2019; i <= 2026; i++) {
         year.push({ value: i, label: i})
     }
+
     const handleChangeYear = (value) => {
         console.log(value)
     }
+
     const templateFilter = () => {
         return (
             <div>
@@ -40,6 +54,7 @@ function SuKienDeXuat() {
                     defaultValue={2024}
                     onChange={handleChangeYear}
                     options={year}
+                    allowClear={true}
                 ></Select>
             </div>
         )
@@ -64,6 +79,39 @@ function SuKienDeXuat() {
         setPagination({...pagination, ...pagi})
     }
 
+    const handleUpdate = (rowData) => {
+        console.log('rowData: ', rowData)
+    }
+
+    const handleDelete = (rowData) => {
+        console.log('rowData: ', rowData)
+    }
+
+    const templateColumns = [
+        {
+            key: 'tt',
+            template: (rowData, index) => {
+                console.log('index', index)
+                return (<span>{index}</span>)
+            }
+        },
+        {
+            key: 'chucnang',
+            template: (rowData, index) => {
+                return (
+                    <div className="viasm-table-operator">
+                        <Tooltip placement="top" title="Sửa" >
+                            <FontAwesomeIcon icon={faPen} style={{ cursor: "pointer", color: "var(--primary-color-viasm-active-color)", margin: "0 6px" }} onClick={(e) => handleUpdate(rowData)} />
+                        </Tooltip>
+                        <Tooltip placement="top" title="Xóa" >
+                            <FontAwesomeIcon icon={faTrashCan} style={{ cursor: "pointer", color: "var(--primary-color-viasm-danger)", margin: "0 6px" }} onClick={(e) => handleDelete(rowData)} />
+                        </Tooltip>
+                    </div>
+                )
+            }
+        }
+    ]
+
     return (
         <div>
             <ViasmTable
@@ -76,6 +124,7 @@ function SuKienDeXuat() {
                 showPagination={true}
                 pagination={pagination}
                 currentPageChange={currentPageChange}
+                templateColumns={templateColumns}
             ></ViasmTable>
             <Dialog
                 header={titleForm}

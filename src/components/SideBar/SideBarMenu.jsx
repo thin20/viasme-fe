@@ -1,19 +1,11 @@
 import React from 'react';
 import { Menu } from 'primereact/menu';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarPlus, faCalendarDays, faCalendarCheck, faMoneyBill, faBook, faSlash } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarPlus, faCalendarDays, faCalendarCheck, faMoneyBill, faBook } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
 
 function SideBarMenu() {
     const navigate = useNavigate()
-    const goto = (e, routerLink) => {
-        console.log('e: ', e)
-        console.log('routerLink: ', routerLink)
-        // e.stopPropagation()
-        // e.preventDefault()
-        // navigate(routerLink)
-    }
 
     const items = [
         {

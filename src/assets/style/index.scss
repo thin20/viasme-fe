@@ -82,6 +82,7 @@
       display: block;
 
       flex: 1;
+      overflow: hidden;
       //padding: 7px 14px;
     }
   }
@@ -100,6 +101,10 @@
 
         font-size: 0.9rem;
         padding: 0;
+
+        .p-menuitem .p-menuitem-link {
+          padding: 16px 20px;
+        }
 
         .p-menuitem.p-focus {
           background-color: rgb(232, 232, 232);
