@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import ViasmTable from "@components/VIASM/Table.jsx";
-import { Select, Tooltip } from 'antd';
+import { Select, Tooltip, Modal } from 'antd';
 import columns from './columns/columns.js'
-import { Dialog } from 'primereact/dialog';
-import { getTableRowIndex } from '@/utils/util.js'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { store } from '@/store/store.js'
+import FormCommon from './form/FormCommon.jsx'
 
 function SuKienDeXuat(props) {
+    console.log('store: ', store)
     const [dataTable, setDataTable] = useState([
         {
             tt: '1',
@@ -36,6 +37,8 @@ function SuKienDeXuat(props) {
         totalPage: 1
     })
     const [visibleForm, setVisibleForm] = useState(false)
+    const [isCreate, setIsCreate] = useState(false)
+    const [isUpdate, setIsUpdate] = useState(false)
     const [titleForm, setTitleForm] = useState('')
     const year = [];
     for(let i = 2019; i <= 2026; i++) {
@@ -62,11 +65,15 @@ function SuKienDeXuat(props) {
 
     const onCreate = () => {
         setTitleForm('Thêm mới đề xuất tổ chức sự kiện khoa học')
+        setIsCreate(true)
+        setIsUpdate(false)
         setVisibleForm(true)
     }
 
     const onUpdate = () => {
         setTitleForm('Cập nhật đề xuất tổ chức sự kiện khoa học')
+        setIsCreate(false)
+        setIsUpdate(true)
         setVisibleForm(true)
     }
 
@@ -126,12 +133,7 @@ function SuKienDeXuat(props) {
                 currentPageChange={currentPageChange}
                 templateColumns={templateColumns}
             ></ViasmTable>
-            <Dialog
-                header={titleForm}
-                visible={visibleForm}
-                style={{width: '100vw', height: '100vh'}}
-                onHide={() => setVisibleForm(false)}>
-            </Dialog>
+            { visibleForm ?  <FormCommon titleForm={titleForm} visibleForm={visibleForm} isCreate={isCreate} isUpdate={isUpdate} onClose={() => onCloseForm()} /> : null }
         </div>
     )
 }

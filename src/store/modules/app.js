@@ -9,7 +9,6 @@ export const appSlice = createSlice({
     initialState,
     reducers: {
         toggleSideBar: (state, payload) => {
-            console.log('toggleSideBar app: ', payload)
             if (payload && payload?.onClose === true) {
                 state.visibleSideBar = false
             } else {
