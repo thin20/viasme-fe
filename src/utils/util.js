@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { API_ERROR_STATUSES } from '@/constants/appConstants.ts'
 
 export const getQueryParameters = (options) => {
   const url = options.url
@@ -355,4 +356,25 @@ export function getTableRowIndex(pageSize, currentPage, rowIndex) {
     currentPage = 1
   }
   return (currentPage - 1) * pageSize + rowIndex + 1
+}
+
+export function mergePaginationViasm(pagination, bodyRes) {
+  return bodyRes
+      ? {
+        ...pagination,
+        pages: bodyRes.totalPages || 0,
+        total: bodyRes.numberOfElements || 0
+      }
+      : pagination
+}
+
+export function handleApiError (err) {
+  if (API_ERROR_STATUSES.indexOf(err.response.status) !== -1) {
+    if (err.response.data.message) {
+      return err.response.data.message
+    } else if (err.response.data.error_description) {
+      return (err.response.data.error_description)
+    }
+  }
+  return err.message
 }

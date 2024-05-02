@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { store } from '@/store/store.js'
 import { notification } from 'antd'
-// import { VueAxios } from './axios'
 
 const request = axios.create({
   // baseURL: process.env.VUE_APP_API_SERVER_URL,
@@ -39,8 +38,7 @@ const errorHandler = (error) => {
 }
 
 request.interceptors.request.use(config => {
-  // const token = store.getters.token
-  const token = 'token'
+  const token = store?.getState()?.user?.token || ''
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
   }

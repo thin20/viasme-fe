@@ -1,17 +1,23 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSideBar } from "@store/modules/app";
+import { toggleSideBar } from "@store/modules/app.js";
 import { Toolbar } from "primereact/toolbar";
 import { Avatar } from "primereact/avatar";
 import logo from "@/assets/images/logo.png";
 import avatar from "@/assets/images/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { Dropdown } from 'antd';
+import { Dropdown, Modal } from 'antd';
+import { useCookies } from "react-cookie";
+import { COOKIE_USER_INFO } from '@/constants/appConstants.ts'
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const dispatch = useDispatch()
     const visibleSideBar = useSelector((state) => state.app.visibleSideBar)
+    const [cookies, setCookie] = useCookies([COOKIE_USER_INFO]);
+    const navigate = useNavigate()
+    const userInfo = useSelector((state) => state.user.info)
 
     const onToggleSideBar = (value) => {
         value ? dispatch(toggleSideBar({ onClose: true })) : dispatch(toggleSideBar())
@@ -19,7 +25,6 @@ function Header() {
         if (visibleSideBar) {
             tsIcon.style.transform = 'rotate(0deg)'
             tsIcon.style.transition = 'all .3s'
-            // tsIcon.style.
         } else {
             tsIcon.style.transform = 'rotate(-180deg)'
             tsIcon.style.transition = 'all .3s'
@@ -48,14 +53,23 @@ function Header() {
         }
     ];
     const handleLogout = () => {
-        console.log('handleLogout')
+        Modal.confirm({
+            content: 'Bạn có chắc chắn muốn đăng xuất?',
+            okText: 'Đồng ý',
+            cancelText: 'Hủy',
+            onOk() {
+                setCookie(COOKIE_USER_INFO, null)
+                // dispatch(logoutStore())
+                navigate('/auth/login')
+            }
+        })
     }
     const endContent = (
         <div className="header-right">
             <Dropdown menu={{items}}>
                 <div className="flex justifi-content-center align-items-center gap-2 header-right--avatar">
-                    <span style={{fontSize: '14px'}}>Minh Phương</span>
-                    <Avatar image={avatar} shape="circle"
+                    <span style={{fontSize: '14px'}}>{ userInfo.hoTen ? userInfo.hoTen : 'Minh Phương' }</span>
+                    <Avatar image={userInfo.avatar ? userInfo.avatar : avatar} shape="circle"
                             style={{height: '38px', width: '38px', marginLeft: '12px'}}/>
                 </div>
             </Dropdown>

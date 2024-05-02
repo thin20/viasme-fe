@@ -2,21 +2,42 @@ import React from 'react';
 import { Form, Row, Col, Input, Checkbox, Button, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
-import { login } from '@/services/user/index.js'
+import { loginUserNameOrEmail } from '@/services/user/index.js'
+import { store } from '@/store/store.js'
+import { handleApiError } from "@utils/util";
+import { initUser } from "@store/modules/user";
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from "react-cookie";
+import { COOKIE_USER_INFO } from '@/constants/appConstants.ts'
 
 function Login() {
+    const navigate = useNavigate()
     const [form] = Form.useForm();
+    const [cookies, setCookie] = useCookies([COOKIE_USER_INFO]);
 
-    async function handleLogin() {
-        try {
-            const params = {
-                ...form.getFieldsValue()
+    function handleLogin() {
+        form.validateFields().then(async () => {
+            try {
+                const params = {
+                    ...form.getFieldsValue()
+                }
+                const rs = await loginUserNameOrEmail(params)
+                if (rs) {
+                    store.dispatch(initUser(rs))
+                    message.success('Đăng nhập thành công')
+                    setCookie(COOKIE_USER_INFO, rs.token)
+                    navigate('/')
+                } else {
+                    message.error('Đăng nhập thất bại')
+                }
+            } catch(err) {
+                console.log('err: ', {...err})
+                const mes = handleApiError(err)
+                message.error({ content: mes })
             }
-            const rs = await login(params)
-            if (rs) {
-                // TODO: SAVE TOKEN TO LOCALSTORAGE
-            }
-        } catch {}
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     return (
@@ -31,10 +52,10 @@ function Login() {
                         <Form form={form} layout="vertical" className="login-form--login">
                             <Row gutter={[12, 12]}>
                                 <Col span={24}>
-                                    <Form.Item name="username" label="" rules={[
+                                    <Form.Item name="userNameOrEmail" label="" rules={[
                                         {
                                             required: true,
-                                            message: 'Tên đăng nhập hoặc Email bắt buộc nhập'
+                                            message: 'Tên đăng nhập hoặc Email bắt buộc nhập!'
                                         }
                                     ]}>
                                         <Input
@@ -51,7 +72,7 @@ function Login() {
                                     <Form.Item name="password" label="" rules={[
                                         {
                                             required: true,
-                                            message: 'Mật khẩu bắt buộc nhập'
+                                            message: 'Mật khẩu bắt buộc nhập!'
                                         }
                                     ]}>
                                         <Input.Password
@@ -72,7 +93,7 @@ function Login() {
                             </Row>
                             <Row>
                                 <Col span={24}>
-                                    <Button className="button-login" size="large" onClick={() => handleLogin}>Đăng nhập</Button>
+                                    <Button className="button-login" size="large" onClick={() => handleLogin()}>Đăng nhập</Button>
                                 </Col>
                             </Row>
                             <Row>

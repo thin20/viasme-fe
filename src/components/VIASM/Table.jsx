@@ -16,7 +16,6 @@ function ViasmTable(props, component) {
     const isCreate = props && props["isCreate"] ? props["isCreate"] : false
     const showGridlines = props && props["showGridlines"] ? props["showGridlines"] : true
     const templateColumns = props && props["templateColumns"] ? props["templateColumns"] : []
-    console.log('templateColumns: ', templateColumns)
     const handleCreate = () => {
         props.onCreate()
     }

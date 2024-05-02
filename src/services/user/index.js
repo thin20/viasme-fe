@@ -53,6 +53,14 @@ export function genCaptcha (params) {
     return axios({
         method: 'get',
         url: api.genCaptcha,
+        params: params
+    })
+}
+
+export function loginUserNameOrEmail (params) {
+    return axios({
+        method: 'post',
+        url: api.loginUserNameOrEmail,
         data: params
     })
 }

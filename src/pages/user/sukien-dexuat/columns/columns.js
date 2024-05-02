@@ -5,32 +5,32 @@ export default [
         style: { minWidth: '2rem', textAlign: 'center' }
     },
     {
-        field: 'ten',
+        field: 'tenSuKienDeXuatTiengViet',
         title: 'Tên',
         style: { minWidth: '20rem' }
     },
     {
-        field: 'loaihinhhoatdong',
+        field: 'loaiHinhHoatDongTen',
         title: 'Loại hình hoạt động',
         style: { minWidth: '12rem' }
     },
     {
-        field: 'thoigiandukien',
+        field: 'thoiGianDuKien',
         title: 'Thời gian dự kiến',
         style: { minWidth: '13rem' }
     },
     {
-        field: 'diadiemtochuc',
+        field: 'diaDiemToChuc',
         title: 'Địa điểm tổ chức',
         style: { minWidth: '20rem' }
     },
     {
-        field: 'tennguoidexuat',
+        field: 'nguoiDeXuatTen',
         title: 'Tên người đề xuất',
         style: { minWidth: '12rem' }
     },
     {
-        field: 'trangthai',
+        field: 'trangThaiTen',
         title: 'Trạng thái',
         style: { minWidth: '8rem' }
     },

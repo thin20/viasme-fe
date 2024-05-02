@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Row, Input, Form, DatePicker, Select, Modal, Button, Spin } from 'antd';
+import { Col, Row, Input, Form, DatePicker, Select, Modal, Button, Spin, message } from 'antd';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
-import { createSuKienDeXuat } from '@/services/suKienDeXuat/index.js'
-import dayjs from "dayjs";
+import {createSuKienDeXuat, detailSuKienDeXuat, updateSuKienDeXuat} from '@/services/suKienDeXuat/index.js'
+import { store } from '@/store/store.js'
+import {handleApiError} from "@utils/util";
+import dayjs from 'dayjs'
 
 function FormCommon(props) {
     const [loading, setLoading] = useState(false)
@@ -12,28 +14,40 @@ function FormCommon(props) {
     const [lstNhomNhiemVu, setLstNhomNhiemVu] = useState([]);
     const [titleForm, setTitleForm] = useState(props.titleForm)
     const [visibleForm, setVisibleForm] = useState(props.visibleForm)
-
-    function initialValue() {
-        return {
-            tenSuKienDeXuatTiengViet: null,
-            tenSuKienDeXuatTiengAnh: null,
-            tenSuKienDeXuatVietTat: null,
-            thoiGianDuKienTu: null,
-            thoiGianDuKienDen: null,
-            loaiHinhHoatDong: null,
-            nhomNhiemVu: null,
-            diaDiemToChuc: null,
-            idNguoiDeXuat: 1,
-            tenNguoiDeXuat: 'Phan Minh Phuong',
-            quyMoToChuc: null
-        }
+    const initData = {
+        tenSuKienDeXuatTiengViet: null,
+        tenSuKienDeXuatTiengAnh: null,
+        tenSuKienDeXuatVietTat: null,
+        thoiGianDuKienTu: null,
+        thoiGianDuKienDen: null,
+        loaiHinhHoatDong: null,
+        nhomNhiemVu: null,
+        diaDiemToChuc: null,
+        idNguoiDeXuat: store?.getState()?.user?.info?.idTaiKhoan,
+        nguoiDeXuatTen: store?.getState()?.user?.info?.hoTen,
+        quyMoToChuc: null
     }
 
-    function onSubmit(formValue) {
-        form.validateFields()
-        console.log('onSubmit: ', formValue)
-        console.log('form: ', form)
-        console.log('getFieldsValue; ', form.getFieldsValue())
+    async function getData() {
+        try {
+            if (props.isCreate) {
+                form.setFieldsValue({...initData})
+            } else {
+                const rs = await detailSuKienDeXuat({ id: props.id })
+                if (rs) {
+                    console.log('dayjs(rs.thoiGianDuKienTu: ', dayjs(rs.thoiGianDuKienTu, 'DD-MM-YYYY'))
+                    console.log('dayjs(rs.thoiGianDuKienDen: ', dayjs(rs.thoiGianDuKienDen, 'DD-MM-YYYY'))
+                    form.setFieldsValue({
+                        ...rs,
+                        thoiGianDuKienTu: dayjs(rs.thoiGianDuKienTu, 'DD-MM-YYYY'),
+                        thoiGianDuKienDen: dayjs(rs.thoiGianDuKienDen, 'DD-MM-YYYY')
+                    })
+                    initData.idNguoiDeXuat = rs.idNguoiDeXuat || null
+                }
+            }
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     function getLoaiHinhHoatDong() {
@@ -65,26 +79,28 @@ function FormCommon(props) {
     }
 
     function handleSubmit() {
-        console.log('form: ', form)
-        console.log('getFieldsValue: ', form.getFieldsValue())
-        form.validateFields().then(() => {
-            // TODO CALL FUNCTION SAVE
+        form.validateFields().then(async () => {
+            setLoading(true)
             const params = {
-                ...form.getFieldsValue()
+                idSuKienDeXuat: props.id || null,
+                ...form.getFieldsValue(),
+                idNguoiDeXuat: initData.idNguoiDeXuat
             }
             try {
                 if (props.isCreate) {
-                    console.log('params: ', params)
-                    createSuKienDeXuat(params).then(rs => {
-                        console.log(rs)
-                    })
+                    const rs = await createSuKienDeXuat(params)
+                    message.success(rs ? 'Thêm mới sự kiện đề xuất thành công': 'thêm mới sự kiện đề xuất thấy bại')
                 } else {
-                    // TO DO: EDIT
+                    const rs = await updateSuKienDeXuat(params)
+                    message.success(rs ? 'Cập nhật sự kiện đề xuất thành công': 'Cập nhật sự kiện đề xuất thấy bại')
                 }
+                handleCloseForm()
             } catch (err) {
                 console.log(err)
+                const mes = handleApiError(err)
+                message.error(mes)
             } finally {
-                // handleCloseForm()
+                setLoading(false)
             }
         })
     }
@@ -92,6 +108,7 @@ function FormCommon(props) {
     useEffect(() => {
         getLoaiHinhHoatDong()
         getNhomNhiemVu()
+        getData()
     }, [])
 
     return (
@@ -107,10 +124,10 @@ function FormCommon(props) {
         >
             <Spin spinning={loading}>
                 <div style={{ color: '#3a5cb1', marginBottom: '16px', fontWeight: 700 }}>1. Tên hoạt động - loại hình hoạt động </div>
-                <Form onFinish={onSubmit} form={form} layout="vertical" initialValues={initialValue}>
+                <Form form={form} layout="vertical" >
                     <Row gutter={[12, 12]}>
                         <Col span={24}>
-                            <Form.Item name="tenNguoiDeXuat" label="Tên người đề xuất">
+                            <Form.Item name="nguoiDeXuatTen" label="Tên người đề xuất">
                                 <Input disabled={true}></Input>
                             </Form.Item>
                         </Col>
@@ -170,7 +187,7 @@ function FormCommon(props) {
                                     message: 'Thời gian dự kiến từ bắt buộc nhập'
                                 }
                             ]}>
-                                <DatePicker style={{width: '100%'}} />
+                                <DatePicker style={{width: '100%'}} format="DD/MM/YYYY" />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -180,7 +197,7 @@ function FormCommon(props) {
                                     message: 'Thời gian dự kiến đến bắt buộc nhập'
                                 }
                             ]}>
-                                <DatePicker style={{width: '100%'}} />
+                                <DatePicker style={{width: '100%'}} format="DD/MM/YYYY" />
                             </Form.Item>
                         </Col>
                     </Row>
@@ -207,12 +224,7 @@ function FormCommon(props) {
                                     message: 'Địa điểm tổ chức bắt buộc nhập'
                                 }
                             ]}>
-                                <Select
-                                    onChange={() => handleChangeNhomNhiemVu}
-                                    style={{ width: '100$' }}
-                                    options={lstNhomNhiemVu}
-                                    placeholder="Chọn"
-                                />
+                                <Input></Input>
                             </Form.Item>
                         </Col>
                     </Row>
